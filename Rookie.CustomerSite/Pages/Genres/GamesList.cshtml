@@ -1,0 +1,83 @@
+﻿@page
+@using RookieShop.Shared.Constants
+@model Rookie.CustomerSite.Pages.Genres.GamesModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Games";
+}
+
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+            <!-- <div class="filter-bar">
+                <div class="filter">
+                    <span>
+                        <label>Sort by:</label>
+                        <select name="#">
+                            <option value="#">Highest Rating</option>
+                            <option value="#">Lowest price</option>
+                        </select>
+                    </span>
+                    <span>
+                        <label>Genre</label>
+                        <select name="#">
+                            <option value="#">Show All</option>
+                            <option value="#">Action</option>
+                            <option value="#">Racing</option>
+                            <option value="#">Strategy</option>
+                        </select>
+                    </span>
+                    <span>
+                        <label>Show:</label>
+                        <select name="#">
+                            <option value="#">8</option>
+                            <option value="#">16</option>
+                            <option value="#">24</option>
+                        </select>
+                    </span>
+                </div> <!-- .filter
+
+                <div class="pagination">
+                    <a href="#" class="page-number"><i class="fa fa-angle-left"></i></a>
+                    <span class="page-number current">1</span>
+                    <a href="#" class="page-number">2</a>
+                    <a href="#" class="page-number">3</a>
+                    <a href="#" class="page-number">...</a>
+                    <a href="#" class="page-number">12</a>
+                    <a href="#" class="page-number"><i class="fa fa-angle-right"></i></a>
+                </div> <!-- .pagination
+            </div> <!-- .filter-bar -->
+
+            <div class="product-list">
+                @foreach (var item in Model.Games.Items)
+                {
+                    <div class="product">
+                        <div class="inner-product">
+                            <div class="figure-image">
+                                <a asp-page="/Games/Detail" asp-route-id="@item.Id"><img src="@Url.Content(ImageConstants.COVER+item.CoverImage)" alt="Game's cover"></a>
+                            </div>
+                            <h3 class="product-title"><a asp-page="./Detail" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></h3>
+                            <!-- <p>Lorem ipsum dolor sit consectetur adipiscing elit do eiusmod tempor...</p> -->
+                            <h4 class="price">$@Html.DisplayFor(modelItem => item.Price)</h4>
+                            <a href="" class="button">Add to cart</a>
+                            <a asp-page="/Games/Detail" asp-route-id="@item.Id" class="button muted">Read Details</a>
+                        </div>
+                    </div>
+                } <!-- .product -->
+            </div> <!-- .product-list -->
+
+            @{
+                var prevDisabled = !Model.Games.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.Games.HasNextPage ? "disabled" : "";
+            }
+            <div class="pagination-bar">
+                <div class="pagination">
+                    <a asp-page="./Index" asp-route-pageIndex="@(Model.Games.Page - 1)" class="page-number"><i class="fa fa-angle-left"></i></a>
+                    <span class="page-number current">@Model.Games.Page</span>
+                    <a asp-page="./Index" asp-route-pageIndex="@(Model.Games.Page + 1)" class="page-number"><i class="fa fa-angle-right"></i></a>
+                </div> <!-- .pagination -->
+            </div>
+        </div>
+    </div> <!-- .container -->
+</main> <!-- .main-content -->

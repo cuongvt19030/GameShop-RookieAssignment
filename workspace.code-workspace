@@ -1,0 +1,78 @@
+{
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Debug rookieshop.admin",
+                "type": "chrome",
+                "request": "launch",
+                "preLaunchTask": "start-react-app",
+                "url": "http://localhost:3000",
+                "webRoot": "${workspaceFolder}/rookieshop-admin/src",
+                "sourceMapPathOverrides": {
+                  "webpack:///src/*": "${webRoot}/*"
+                }
+            },
+            {
+                "name": "Debug Rookie.Customer",
+                "type": "coreclr",
+                "request": "launch",
+                "program": "${workspaceFolder}/Rookie.CustomerSite/bin/Debug/net5.0/Rookie.CustomerSite.dll",
+                "args": [],
+                "cwd": "${workspaceFolder}/Rookie.CustomerSite",
+                "stopAtEntry": false,
+                "serverReadyAction": {
+                    "action": "openExternally",
+                    "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                },
+                "env": {
+                    "ASPNETCORE_ENVIRONMENT": "Development",
+                    "ASPNETCORE_URLS":"https://localhost:44367;http://localhost:51708"
+                },
+                "sourceFileMap": {
+                    "/Views": "${workspaceFolder}/Views"
+                }
+            },
+            {
+                // Use IntelliSense to find out which attributes exist for C# debugging
+                // Use hover for the description of the existing attributes
+                // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+                "name": "Debug Rookie.BackEnd",
+                "type": "coreclr",
+                "request": "launch",
+                // If you have changed target frameworks, make sure to update the program path.
+                "program": "${workspaceFolder}/RookieShop.Backend/bin/Debug/net5.0/RookieShop.Backend.dll",
+                "args": [],
+                "cwd": "${workspaceFolder}/RookieShop.Backend",
+                "stopAtEntry": false,
+                // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+                "serverReadyAction": {
+                    "action": "openExternally",
+                    "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                },
+                "env": {
+                    "ASPNETCORE_ENVIRONMENT": "Development",
+                    "ASPNETCORE_URLS":"https://localhost:44341;http://localhost:55853"
+                },
+                "sourceFileMap": {
+                    "/Views": "${workspaceFolder}/Views"
+                }
+            }
+        ],
+        "compounds": [
+            {
+                "name": "Debug IdentityServer & Client & Admin",
+                "configurations": [
+                    "Debug Rookie.Customer",
+                    "Debug Rookie.BackEnd",
+                    "Debug rookieshop.admin"
+                ]
+            }
+        ]
+    },
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
+}

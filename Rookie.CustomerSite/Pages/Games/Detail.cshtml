@@ -1,0 +1,103 @@
+﻿@page
+@model Rookie.CustomerSite.Pages.Games.DetailModel
+@using RookieShop.Shared.Constants
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Detail";
+}
+<!--
+<h1>Detail</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Game.Id" />
+        <div>
+            Name:
+            <p>@Model.Game.Name</p>
+        </div>
+        <div>
+            Price:
+            <p>@Model.Game.Price</p>
+        </div>
+        <div>
+            Description:
+            <p>@Model.Game.Description</p>
+        </div>
+        <div>
+            Genre:
+            <p>@Model.Game.GenreName</p>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} -->
+
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+
+            <div class="entry-content">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="product-images">
+                            <figure class="large-image">
+                                <a href=@Url.Content(ImageConstants.COVER+Model.Game.CoverImage)><img src="@Url.Content(ImageConstants.COVER+Model.Game.CoverImage)" alt=""></a>
+                            </figure>
+                            <div class="thumbnails">
+                                <a href=@Url.Content(ImageConstants.BACKGROUND+Model.Game.BackGroundImage)><img src="@Url.Content(ImageConstants.BACKGROUND+Model.Game.BackGroundImage)" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h2 class="entry-title">@Html.DisplayFor(Model => Model.Game.Name)</h2>
+                        <small class="price">$@Html.DisplayFor(Model => Model.Game.Price)</small>
+
+                        <p> @Html.DisplayFor(Model => Model.Game.Description) </p>
+
+                        <div class="addtocart-bar">
+                            <form asp-page="./Index">
+                                <div class="counter">
+                                    <span class="down" onClick='decreaseCount(event, this)'>-</span>
+                                    <input type="text" value="1">
+                                    <span class="up" onClick='increaseCount(event, this)'>+</span>
+                                </div>
+                                <input type="submit" value="Add to cart">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <h3><b><a asp-page="./Index">All Game List</a></b></h3>
+                <h3><b><a asp-page="/Genres/GamesList" asp-route-id="@Model.Game.GenreID">Games in this Genre</a></b></h3>
+            </div>
+
+        </div>
+    </div> <!-- .container -->
+</main> <!-- .main-content -->
+
+<script type="text/javascript">
+    function increaseCount(a, b) {
+        var input = b.previousElementSibling;
+        var value = parseInt(input.value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        input.value = value;
+    }
+    function decreaseCount(a, b) {
+        var input = b.nextElementSibling;
+        var value = parseInt(input.value, 10);
+        if (value > 1) {
+            value = isNaN(value) ? 0 : value;
+            value--;
+            input.value = value;
+        }
+    }
+</script>

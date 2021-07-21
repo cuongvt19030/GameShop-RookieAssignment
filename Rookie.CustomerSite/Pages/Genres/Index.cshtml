@@ -1,0 +1,23 @@
+﻿@page
+@model Rookie.CustomerSite.Pages.Genres.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Genres";
+}
+
+
+<div class="main-content">
+    <div class="container">
+        <div class="page">
+            <div class="product-list">
+                @foreach (var genre in Model.Genres)
+                {
+                    <div class="product">
+                        <h2><a asp-page="./GamesList" asp-route-id="@genre.Id"> @genre.Name</a></h2>
+                    </div>
+                } <!-- .product -->
+            </div> <!-- .product-list -->
+        </div>
+    </div> <!-- .container -->
+</div> <!-- .main-content -->
