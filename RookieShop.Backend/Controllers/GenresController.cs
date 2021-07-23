@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RookieShop.Backend.Data;
+using RookieShop.Backend.Models;
 using RookieShop.BackEnd.Extension;
 using RookieShop.Shared.Dto;
 using RookieShop.Shared.Dto.Game;
@@ -30,15 +31,29 @@ namespace RookieShop.Backend.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GenreDto>>> GetGenres()
+        public async Task<ActionResult<IEnumerable<GenreDto>>> GetGenresList()
         {
-            var genres = await _context.Categories.Where(genre => genre.Games.Count > 0).ToListAsync();
+            var genres = await _context.Genres.Where(genre => genre.Games.Count > 0).ToListAsync();
             var genreDto = _mapper.Map<IEnumerable<GenreDto>>(genres).ToList();
             return genreDto;
         }
 
-        // GET api/<ValuesController>/5
         [HttpGet("{id}")]
+        public async Task<ActionResult<GenreDto>> GetGenre(int id)
+        {
+            var genre = await _context.Genres.FindAsync(id);
+            if (genre == null)
+            {
+                return NotFound();
+            }
+            var genreDto = _mapper.Map<GenreDto>(genre);
+            return genreDto;
+        }
+
+        // GET api/<ValuesController>/5
+
+
+        [HttpGet("games/{id}")]
         public async Task<ActionResult<PagedResponseDto<GameDto>>> GetGamesByGenre(
             int id,
             [FromQuery] GameCriteriaDto gameCriteriaDto,
@@ -67,8 +82,16 @@ namespace RookieShop.Backend.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> NewGenre([FromForm] GenreCreateRequest genreCreateRequest)
         {
+            var genre = new Genre
+            {
+                Name = genreCreateRequest.Name
+            };
+            _context.Genres.Add(genre);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetGenre", new { id = genre.Id }, new GenreDto { Id = genre.Id, Name = genre.Name });
         }
 
         // PUT api/<ValuesController>/5

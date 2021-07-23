@@ -1,36 +1,33 @@
-﻿@model Rookie.CustomerSite.ViewModel.PagedResponseVM<Rookie.CustomerSite.ViewModel.Game.GameVm>
+﻿@model Rookie.CustomerSite.ViewModel.HomeVM
 @using RookieShop.Shared.Constants
 @{ ViewData["Title"] = "Home Page"; }
 
 <div class="home-slider">
     <ul class="slides">
         @{ int count = 0;}
-        @foreach (var item in Model.Items)
+        @foreach (var item in Model.Games.Take(4))
         {
 
-            if (count <= 3)
-            {
-        <li style="background: url(@Url.Content(ImageConstants.BACKGROUND + item.BackGroundImage)) no-repeat 50% 30%">
-            <div class="container">
-                <div class="slide-content">
-                    <h2 class="slide-title"></h2>
-                    <small class="slide-subtitle">@item.Name</small>
+            <li style="background: url(@Url.Content(ImageConstants.BACKGROUND + item.BackGroundImage)) no-repeat 50% 30%">
+                <div class="container">
+                    <div class="slide-content">
+                        <h2 class="slide-title"></h2>
+                        <small class="slide-subtitle">@item.Name</small>
 
-                    <p>@item.Description</p>
+                        <p>@item.Description</p>
 
-                    <a asp-page="/Cart/Index" class="button">Add to cart</a>
+                        <a asp-page="/Cart/Index" class="button">Add to cart</a>
+                    </div>
+
+                    <img src="@Url.Content(ImageConstants.COVER + item.CoverImage)" class="slide-image">
                 </div>
-
-                <img src="@Url.Content(ImageConstants.COVER + item.CoverImage)" class="slide-image">
-            </div>
-        </li>
-count += 1;
-}
-else
-{
-break;
-}
-}
+            </li>
+        }
+        else
+        {
+        break;
+        }
+        }
 
     </ul> <!-- .slides -->
 </div> <!-- .home-slider -->
@@ -43,24 +40,24 @@ break;
                     <a asp-page="/Games/Index" class="all">Show All</a>
                 </header>
                 <div class="product-list">
-                    @foreach (var item in Model.Items)
+                    @foreach (var item in Model.Games)
                     {
         <div class="product">
             <div class="inner-product">
                 <div class="figure-image">
                     <a asp-page="/Games/Detail" asp-route-id="@item.Id"><img src="@Url.Content(ImageConstants.COVER+item.CoverImage)" alt="Game's cover"></a>
                 </div>
-                <h3 class="product-title"><a asp-page="/Games/Detail" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></h3>-->
+                <h3 class="product-title"><a asp-page="/Games/Detail" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></h3>
                 <!-- <p>Lorem ipsum dolor sit consectetur adipiscing elit do eiusmod tempor...</p> -->
                 <h4 class="price">$@Html.DisplayFor(modelItem => item.Price)</h4>
                 <a href="" class="button">Add to cart</a>
                 <a asp-page="/Games/Detail" asp-route-id="@item.Id" class="button muted">Read Details</a>
             </div>
         </div> <!-- .product -->}
-                </div>-->
+                </div>
                 <!-- .product-list -->
             </section>
         </div>
-    </div>-->
+    </div>
     <!-- .container -->
 </main> <!-- .main-content -->

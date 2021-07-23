@@ -68,16 +68,28 @@
             </div> <!-- .product-list -->
 
             @{
-                var prevDisabled = !Model.Games.HasPreviousPage ? "disabled" : "";
-                var nextDisabled = !Model.Games.HasNextPage ? "disabled" : "";
+                var prevDisabled = !Model.Games.HasPreviousPage ? true : false;
+                var nextDisabled = !Model.Games.HasNextPage ? true : false;
             }
-            <div class="pagination-bar">
-                <div class="pagination">
-                    <a asp-page="./Index" asp-route-pageIndex="@(Model.Games.Page - 1)" class="page-number"><i class="fa fa-angle-left"></i></a>
-                    <span class="page-number current">@Model.Games.Page</span>
-                    <a asp-page="./Index" asp-route-pageIndex="@(Model.Games.Page + 1)" class="page-number"><i class="fa fa-angle-right"></i></a>
-                </div> <!-- .pagination -->
+            @if (Model.Games.TotalPages > 1)
+            {
+                <div class="pagination-bar">
+                    <div class="pagination">
+
+                        @if (!prevDisabled)
+                        {
+                            <a asp-page="./Index" asp-route-p="@(Model.Games.CurrentPage - 1)" class="page-number"><i class="fa fa-angle-left"></i></a>
+                        }
+
+                        <span class="page-number current">@Model.Games.CurrentPage</span>
+                        @if (!nextDisabled)
+                        {
+                            <a asp-page="./Index" asp-route-p="@(Model.Games.CurrentPage + 1)" class="page-number"><i class="fa fa-angle-left"></i></a>
+                        }
+                        
+                    </div> <!-- .pagination -->
+                </div>
+                }
             </div>
-        </div>
     </div> <!-- .container -->
 </main> <!-- .main-content -->

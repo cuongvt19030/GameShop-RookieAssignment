@@ -12,9 +12,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RookieShop.Backend.Data;
 using RookieShop.Backend.IdentityServer;
+using RookieShop.Backend.Interfaces;
 using RookieShop.Backend.Models;
 using RookieShop.Backend.Security.Authorization.Handlers;
 using RookieShop.Backend.Security.Authorization.Requirements;
+using RookieShop.Backend.Services;
 using RookieShop.Shared.Constants;
 using System;
 using System.Collections.Generic;
@@ -113,6 +115,8 @@ namespace RookieShop.Backend
                     }
                 });
             });
+
+            services.AddTransient<IFileService, FileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,6 +13,7 @@ namespace RookieShop.Backend.Data.Mapping
             CreateMap<Game, GameDto>().ForMember(destination => destination.GenreName,
                 options => options.MapFrom(source => source.Genre.Name)).ReverseMap();
             //CreateMap<GameGenreDto, GameGenre>().ReverseMap();
+            CreateMap<Game, GameCreateRequest>().ReverseMap();
         }  
     }
 }
