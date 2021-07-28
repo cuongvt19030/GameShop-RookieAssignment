@@ -5,5 +5,6 @@ namespace RookieShop.Shared.Constants
         public static string GET_GAMES = "api/games";
         public static string GET_FEATURED_GAMES = "api/games/featured";
         public static string GET_GENRES = "api/genres";
+        public static string GET_GENRE_GAMES = "api/genres/games";
     }
 }

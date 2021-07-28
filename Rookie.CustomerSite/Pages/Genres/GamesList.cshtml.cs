@@ -32,6 +32,9 @@ namespace Rookie.CustomerSite.Pages.Genres
 
         public PagedResponseVM<GameVm> Games { get; set; }
 
+        [BindProperty(SupportsGet = true, Name = "p")]
+        public int PageIndex { get; set; } = 1;
+
         public async Task OnGetAsync(
             int? id,
             string sortOrder,

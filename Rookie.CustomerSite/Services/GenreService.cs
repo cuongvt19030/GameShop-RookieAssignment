@@ -29,7 +29,7 @@ public class GenreService : IGenreService
     public async Task<PagedResponseDto<GameDto>> GetGameByGenreAsync(int id, GameCriteriaDto gameCriteriaDto)
     {
         var client = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-        var response = await client.GetAsync($"{EndpointConstants.GET_GENRES}\\{id}");
+        var response = await client.GetAsync($"{EndpointConstants.GET_GENRE_GAMES}\\{id}" + $"?page={gameCriteriaDto.Page}&limit={gameCriteriaDto.Limit}");
         response.EnsureSuccessStatusCode();
         var pagedGame = await response.Content.ReadAsAsync<PagedResponseDto<GameDto>>();
         return pagedGame;

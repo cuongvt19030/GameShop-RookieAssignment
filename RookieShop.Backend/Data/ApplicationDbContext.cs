@@ -8,7 +8,7 @@ namespace RookieShop.Backend.Data
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Game> Games { get; set; }
-        public DbSet<Genre> Categories { get; set; }
+        public DbSet<Genre> Genres { get; set; }
         //public DbSet<GameGenre> GameGenres { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

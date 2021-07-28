@@ -204,56 +204,56 @@ namespace RookieShop.Backend.Migrations
                             Id = 1,
                             BackGroundImage = "1.jpeg",
                             CoverImage = "1.jpeg",
-                            CreateDate = new DateTime(2021, 7, 20, 0, 55, 10, 36, DateTimeKind.Local).AddTicks(8005),
+                            CreateDate = new DateTime(2021, 7, 23, 0, 30, 39, 190, DateTimeKind.Local).AddTicks(9369),
                             Description = "Something's here",
                             GenreID = 2,
                             IsDeleted = false,
                             IsFeatured = true,
                             Name = "Grand Theft Auto V",
                             Price = 350f,
-                            UpdateDate = new DateTime(2021, 7, 20, 0, 55, 10, 37, DateTimeKind.Local).AddTicks(6009)
+                            UpdateDate = new DateTime(2021, 7, 23, 0, 30, 39, 191, DateTimeKind.Local).AddTicks(6326)
                         },
                         new
                         {
                             Id = 2,
                             BackGroundImage = "2.jpeg",
                             CoverImage = "2.jpeg",
-                            CreateDate = new DateTime(2021, 7, 20, 0, 55, 10, 37, DateTimeKind.Local).AddTicks(8290),
+                            CreateDate = new DateTime(2021, 7, 23, 0, 30, 39, 191, DateTimeKind.Local).AddTicks(8405),
                             Description = "Something's here",
                             GenreID = 5,
                             IsDeleted = false,
                             IsFeatured = true,
                             Name = "PlayerUnknown's Battlegrounds",
                             Price = 300f,
-                            UpdateDate = new DateTime(2021, 7, 20, 0, 55, 10, 37, DateTimeKind.Local).AddTicks(8297)
+                            UpdateDate = new DateTime(2021, 7, 23, 0, 30, 39, 191, DateTimeKind.Local).AddTicks(8411)
                         },
                         new
                         {
                             Id = 3,
                             BackGroundImage = "3.jpeg",
                             CoverImage = "3.jpeg",
-                            CreateDate = new DateTime(2021, 7, 20, 0, 55, 10, 37, DateTimeKind.Local).AddTicks(8322),
+                            CreateDate = new DateTime(2021, 7, 23, 0, 30, 39, 191, DateTimeKind.Local).AddTicks(8414),
                             Description = "Something's here",
                             GenreID = 1,
                             IsDeleted = false,
                             IsFeatured = false,
                             Name = "Fall Guys: Ultimate Knockout",
                             Price = 120f,
-                            UpdateDate = new DateTime(2021, 7, 20, 0, 55, 10, 37, DateTimeKind.Local).AddTicks(8323)
+                            UpdateDate = new DateTime(2021, 7, 23, 0, 30, 39, 191, DateTimeKind.Local).AddTicks(8415)
                         },
                         new
                         {
                             Id = 4,
                             BackGroundImage = "4.jpeg",
                             CoverImage = "4.jpeg",
-                            CreateDate = new DateTime(2021, 7, 20, 0, 55, 10, 37, DateTimeKind.Local).AddTicks(8326),
+                            CreateDate = new DateTime(2021, 7, 23, 0, 30, 39, 191, DateTimeKind.Local).AddTicks(8417),
                             Description = "Something's here",
                             GenreID = 4,
                             IsDeleted = false,
                             IsFeatured = true,
                             Name = "God of War 4",
                             Price = 460f,
-                            UpdateDate = new DateTime(2021, 7, 20, 0, 55, 10, 37, DateTimeKind.Local).AddTicks(8327)
+                            UpdateDate = new DateTime(2021, 7, 23, 0, 30, 39, 191, DateTimeKind.Local).AddTicks(8417)
                         });
                 });
 
@@ -270,7 +270,7 @@ namespace RookieShop.Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Genres");
 
                     b.HasData(
                         new

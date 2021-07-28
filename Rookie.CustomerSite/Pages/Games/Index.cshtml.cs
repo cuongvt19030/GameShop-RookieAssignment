@@ -31,8 +31,11 @@ namespace Rookie.CustomerSite.Pages.Games
         }
         public PagedResponseVM<GameVm> Games { get; set; }
 
+        [BindProperty(SupportsGet = true, Name = "p")]
+        public int PageIndex { get; set; } = 1;
+
         public async Task OnGetAsync(/*string sortOrder,
-            string currentFilter,*/ string searchString, int? pageIndex)
+            string currentFilter,*/ string searchString)
         {
             //string searchString = "";
             //if (Games != null)
@@ -47,7 +50,7 @@ namespace Rookie.CustomerSite.Pages.Games
                 Search = searchString,
                 SortOrder = SortOrderEnum.Accsending,
                 //SortColumn = sortOrder,
-                Page = pageIndex ?? 1,
+                Page = PageIndex,
                 Limit = int.Parse(_config[ConfigurationConstants.PAGING_LIMIT])
             };
             var pagedGames = await _gameService.GetGameAsync(gameCriteriaDto);

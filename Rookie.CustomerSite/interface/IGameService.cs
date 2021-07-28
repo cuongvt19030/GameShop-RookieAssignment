@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public interface IGameService
 {
     Task<PagedResponseDto<GameDto>> GetGameAsync(GameCriteriaDto gameCriteriaDto);
-    Task<PagedResponseDto<GameDto>> GetFeaturedGameAsync(GameCriteriaDto gameCriteriaDto);
+    Task<List<GameDto>> GetFeaturedGameAsync();
     Task<GameDto> GetGameByIdAsync(int id);
     Task<bool> UpdateGame(GameDto game);
 }

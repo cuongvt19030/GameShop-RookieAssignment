@@ -20,19 +20,19 @@ public class GameService : IGameService
     public async Task<PagedResponseDto<GameDto>> GetGameAsync(GameCriteriaDto gameCriteriaDto)
     {
         var client = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-        var response = await client.GetAsync(EndpointConstants.GET_GAMES);
+        var response = await client.GetAsync(EndpointConstants.GET_GAMES + $"?page={gameCriteriaDto.Page}&limit={gameCriteriaDto.Limit}");
         response.EnsureSuccessStatusCode();
         var pagedGame = await response.Content.ReadAsAsync<PagedResponseDto<GameDto>>();
         return pagedGame;
     }
 
-    public async Task<PagedResponseDto<GameDto>> GetFeaturedGameAsync(GameCriteriaDto gameCriteriaDto)
+    public async Task<List<GameDto>> GetFeaturedGameAsync()
     {
         var client = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
         var response = await client.GetAsync(EndpointConstants.GET_FEATURED_GAMES);
         response.EnsureSuccessStatusCode();
-        var pagedGame = await response.Content.ReadAsAsync<PagedResponseDto<GameDto>>();
-        return pagedGame;
+        var games = await response.Content.ReadAsAsync<List<GameDto>>();
+        return games;
     }
 
     public async Task<GameDto> GetGameByIdAsync(int id)

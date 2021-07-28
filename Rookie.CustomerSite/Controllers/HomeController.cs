@@ -35,21 +35,15 @@ namespace Rookie.CustomerSite.Controllers
             _mapper = mapper;
         }
 
-        public PagedResponseVM<GameVm> Games { get; set; }
 
-        public async Task<IActionResult> Index(int? pageIndex)
+        public async Task<IActionResult> Index()
         {
-            var gameCriteriaDto = new GameCriteriaDto()
+            var games = await _gameService.GetFeaturedGameAsync();
+            HomeVM home = new HomeVM
             {
-                Search = "",
-                SortOrder = SortOrderEnum.Accsending,
-                //SortColumn = sortOrder,
-                Page = pageIndex ?? 1,
-                Limit = int.Parse(_config[ConfigurationConstants.PAGING_LIMIT])
+                Games = games
             };
-            var pagedGames = await _gameService.GetFeaturedGameAsync(gameCriteriaDto);
-            Games = _mapper.Map<PagedResponseVM<GameVm>>(pagedGames);
-            return View(Games);
+            return View(home);
         }
 
         public IActionResult Privacy()

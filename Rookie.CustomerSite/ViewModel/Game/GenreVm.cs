@@ -8,6 +8,5 @@ namespace Rookie.CustomerSite.ViewModel.Game
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual List<GameVm> Games { get; set; }
     }
 }
