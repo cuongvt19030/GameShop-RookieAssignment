@@ -13,6 +13,9 @@ namespace RookieShop.Backend.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public bool isDeleted { get; set; }
         public ICollection<Game> Games { get; set; }
     }
 }

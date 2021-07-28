@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RookieShop.Backend.Data;
@@ -18,6 +20,7 @@ namespace RookieShop.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class GenresController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -33,7 +36,16 @@ namespace RookieShop.Backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GenreDto>>> GetGenresList()
         {
-            var genres = await _context.Genres.Where(genre => genre.Games.Count > 0).ToListAsync();
+            var genres = await _context.Genres.Where(genre => genre.Games.Count > 0 && genre.isDeleted == false).ToListAsync();
+            var genreDto = _mapper.Map<IEnumerable<GenreDto>>(genres).ToList();
+            return genreDto;
+        }
+
+        [HttpGet("all")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<GenreDto>>> GetAllGenresList()
+        {
+            var genres = await _context.Genres.Where(genre => genre.isDeleted == false).ToListAsync();
             var genreDto = _mapper.Map<IEnumerable<GenreDto>>(genres).ToList();
             return genreDto;
         }
@@ -42,7 +54,7 @@ namespace RookieShop.Backend.Controllers
         public async Task<ActionResult<GenreDto>> GetGenre(int id)
         {
             var genre = await _context.Genres.FindAsync(id);
-            if (genre == null)
+            if (genre == null || genre.isDeleted == false)
             {
                 return NotFound();
             }
@@ -59,7 +71,7 @@ namespace RookieShop.Backend.Controllers
             [FromQuery] GameCriteriaDto gameCriteriaDto,
             CancellationToken cancellationToken)
         {
-            var gameQuery = _context.Games.Include(x => x.Genre).Where(g => g.GenreID == id).AsQueryable();
+            var gameQuery = _context.Games.Include(x => x.Genre).Where(g => g.GenreID == id && g.IsDeleted == false).AsQueryable();
 
             var pagedGames = await gameQuery
                                 .AsNoTracking()
@@ -86,24 +98,54 @@ namespace RookieShop.Backend.Controllers
         {
             var genre = new Genre
             {
-                Name = genreCreateRequest.Name
+                Name = genreCreateRequest.Name,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now
             };
             _context.Genres.Add(genre);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGenre", new { id = genre.Id }, new GenreDto { Id = genre.Id, Name = genre.Name });
+            return CreatedAtAction("GetGenre", new { id = genre.Id },
+                new GenreDto
+                {
+                    Id = genre.Id,
+                    Name = genre.Name,
+                    CreateDate = genre.CreateDate,
+                    UpdateDate = genre.UpdateDate
+                });
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> UpdateGenre([FromRoute] int id, [FromForm] GenreCreateRequest genreCreateRequest)
         {
+            var genre = await _context.Genres.FindAsync(id);
+            if (genre == null || genre.isDeleted == true)
+            {
+                return NotFound();
+            }
+            genre.Name = genreCreateRequest.Name;
+            genre.UpdateDate = DateTime.Now;
+            _context.Entry(genre).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteGenre(int id)
         {
+            var genre = await _context.Genres.FindAsync(id);
+            if (genre == null || genre.isDeleted == true)
+            {
+                return NotFound();
+            }
+            genre.isDeleted = true;
+            _context.Entry(genre).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

@@ -115,7 +115,10 @@ namespace RookieShop.Backend
                     }
                 });
             });
-
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod());
+            });
             services.AddTransient<IFileService, FileService>();
         }
 
@@ -149,7 +152,7 @@ namespace RookieShop.Backend
                 c.OAuthUsePkce();
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rookie Shop API V1");
             });
-
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

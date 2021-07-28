@@ -10,5 +10,6 @@ namespace RookieShop.Backend.Interfaces
     {
         Task<string> UploadCoverImage(IFormFile file);
         Task<string> UploadBackgroundImage(IFormFile file);
+        Task DeleteFile(string fileName, string folder);
     }
 }

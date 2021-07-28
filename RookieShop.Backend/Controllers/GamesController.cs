@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using RookieShop.Shared.Constants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,6 +25,7 @@ namespace RookieShop.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class GamesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -46,7 +49,7 @@ namespace RookieShop.Backend.Controllers
             [FromQuery] GameCriteriaDto gameCriteriaDto,
             CancellationToken cancellationToken)
         {
-            var gameQuery = _context.Games.Include(x => x.Genre).AsQueryable();
+            var gameQuery = _context.Games.Where(game => game.IsDeleted == false).Include(x => x.Genre).AsQueryable();
 
             //var gameQuery = gameQuery.AsQueryable();
 
@@ -76,7 +79,7 @@ namespace RookieShop.Backend.Controllers
         public async Task<ActionResult<IEnumerable<GameDto>>> GetFeaturedGames(
             CancellationToken cancellationToken)
         {
-            var games = await _context.Games.Include(x => x.Genre).Where(x => x.IsFeatured == true).ToArrayAsync();
+            var games = await _context.Games.Include(x => x.Genre).Where(x => x.IsFeatured == true && x.IsDeleted == false).ToArrayAsync();
 
             var gameDtos = _mapper.Map<IEnumerable<GameDto>>(games).ToList();
 
@@ -89,7 +92,7 @@ namespace RookieShop.Backend.Controllers
         {
             var game = await _context.Games.Include(g => g.Genre).Where(g => g.Id == id).FirstOrDefaultAsync();
 
-            if (game == null)
+            if (game == null || game.IsDeleted == true)
             {
                 return NotFound();
             }
@@ -115,16 +118,29 @@ namespace RookieShop.Backend.Controllers
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGame", game.Id, game);
+            return CreatedAtAction("GetGame", new { id = game.Id },
+                new GameDto
+                {
+                    Id = game.Id,
+                    Name = game.Name,
+                    Price = game.Price,
+                    Description = game.Description,
+                    GenreID = game.GenreID,
+                    GenreName = game.Genre.Name,
+                    CoverImage = game.CoverImage,
+                    BackGroundImage = game.BackGroundImage,
+                    CreateDate = game.CreateDate,
+                    UpdateDate = game.UpdateDate
+                });
 
         }
 
         // PUT api/<GamesController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGame( int id, [FromForm] GameCreateRequest gameCreateRequest)
+        public async Task<IActionResult> UpdateGame([FromRoute] int id, [FromForm] GameCreateRequest gameCreateRequest)
         {
             var game = await _context.Games.FindAsync(id);
-            if (game == null)
+            if (game == null || game.IsDeleted == true)
             {
                 return NotFound();
             }
@@ -135,10 +151,12 @@ namespace RookieShop.Backend.Controllers
             game.IsFeatured = gameCreateRequest.IsFeatured;
             if (gameCreateRequest.CoverImage != null)
             {
+                await _fileService.DeleteFile(game.CoverImage, ImageConstants.COVER);
                 game.CoverImage = await _fileService.UploadCoverImage(gameCreateRequest.CoverImage);
             }
             if (gameCreateRequest.BackGroundImage != null)
             {
+                await _fileService.DeleteFile(game.CoverImage, ImageConstants.BACKGROUND);
                 game.BackGroundImage = await _fileService.UploadBackgroundImage(gameCreateRequest.BackGroundImage);
             }
             game.UpdateDate = DateTime.Now;
@@ -151,8 +169,20 @@ namespace RookieShop.Backend.Controllers
 
         // DELETE api/<GamesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [AllowAnonymous]
+        [EnableCors("AllowOrigin")]
+        public async Task<IActionResult> Delete(int id)
         {
+            var game = await _context.Games.FindAsync(id);
+            if (game == null || game.IsDeleted == true)
+            {
+                return NotFound();
+            }
+            game.IsDeleted = true;
+            _context.Entry(game).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
         private IQueryable<Game> GameFilter(

@@ -15,27 +15,42 @@ namespace RookieShop.Backend.Data.SeedData
                 new Genre
                 {
                     Id = 1,
-                    Name = "Multiplayer"
+                    Name = "Multiplayer",
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    isDeleted = false
                 },
                 new Genre
                 {
                     Id = 2,
-                    Name = "Adventure"
+                    Name = "Adventure",
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    isDeleted = false
                 },
                 new Genre
                 {
                     Id = 3,
-                    Name = "Shooting"
+                    Name = "Shooting",
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    isDeleted = false
                 },
                 new Genre
                 {
                     Id = 4,
-                    Name = "Hack and Slash"
+                    Name = "Hack and Slash",
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    isDeleted = false
                 },
                 new Genre
                 {
                     Id = 5,
-                    Name = "Battle Royale"
+                    Name = "Battle Royale",
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    isDeleted = false
                 }
             );
         }
