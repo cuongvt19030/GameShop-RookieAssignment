@@ -18,6 +18,7 @@ const columns = [
     { columnName: "coverImage", columnValue: "CoverImage" },
     { columnName: "backGroundImage", columnValue: "BackGroundImage" },
     { columnName: "genreName", columnValue: "GenreName" },
+    { columnName: "isFeatured", columnValue: "IsFeatured" },
     { columnName: "createDate", columnValue: "CreateDate" },
     { columnName: "updateDate", columnValue: "UpdateDate" }
 ];
@@ -114,9 +115,10 @@ const GameTable = ({
                         <td>{data.name}</td>
                         <td>{data.price}</td>
                         <td>{data.description}</td>
-                        <td><img className="show" src={UrlBackEnd + Endpoints.coverImage + data.coverImage} /></td>
-                        <td><img className="show" src={UrlBackEnd + Endpoints.backGroundImage + data.backGroundImage} /></td>
+                        <td><img width="50px" src={UrlBackEnd + Endpoints.coverImage + data.coverImage} alt='cover' /></td>
+                        <td><img width="70px" src={UrlBackEnd + Endpoints.backGroundImage + data.backGroundImage} alt='background' /></td>
                         <td>{data.genreName}</td>
+                        <td>{data.isFeatured && <p>yes</p>}</td>
                         <td>{new Date(data.createDate).toLocaleString()}</td>
                         <td>{new Date(data.updateDate).toLocaleString()}</td>
                         <td className="d-flex">

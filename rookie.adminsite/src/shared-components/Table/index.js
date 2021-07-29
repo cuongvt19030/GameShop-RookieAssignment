@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Table.css';
-import Pagination from 'react-js-pagination'
+import Pagination from '../Pagination/Pagination';
 import { DEFAULT_PAGE_LIMIT } from '../../Constants/paging';
 
 export default function Table({ columns, children, page }) {
@@ -33,14 +33,13 @@ export default function Table({ columns, children, page }) {
             </div>
             <div>
                 {
-                    (page && page.totalPages && page.totalPages > 1) && <Pagination
-                        activePage={page.currentPage}
-                        pageRangeDisplayed={5}
-                        totalItemsCount={page.totalItems}
-                        itemsCountPerPage={DEFAULT_PAGE_LIMIT}
-                        onChange={page.handleChange}
+                    (page && page.totalPages && page.totalPages > 1) && 
+                    <Pagination 
+                        currentPage={page.currentPage}
+                        totalPages={page.totalPages}
+                        changeCurrentPage={page.handleChange}
+                        them="bottom-border"
                     />
-
                 }
             </div>
         </>

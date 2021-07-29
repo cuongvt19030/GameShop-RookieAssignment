@@ -6,10 +6,8 @@ import { useHistory } from 'react-router-dom'
 import { EDIT_GENRE_ID } from '../../../Constants/pages'
 import { PencilFill, XCircle } from "react-bootstrap-icons"
 import ConfirmModal from '../../../shared-components/ConfirmModal'
-import Info from '../Info'
 import { disableGenreRequest } from '../services/request'
 import { NotificationManager } from 'react-notifications';
-import { Button } from 'reactstrap'
 
 
 

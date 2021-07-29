@@ -12,6 +12,7 @@ import TextArea from '../../shared-components/FormInput/TextArea';
 import SelectField from '../../shared-components/FormInput/SelectField';
 import FileUpload from '../../shared-components/FormInput/FileUpload';
 import { Link } from 'react-router-dom';
+import { BooleanOptions } from '../../Constants/selectOptions';
 
 const initialFormValues = {
     name: '',
@@ -50,10 +51,7 @@ export default function GameForm({ initialGameForm = {
                 history.push(GAME);
             }, 1000);
         } else {
-            NotificationManager.error(
-                `${isUpdate ? 'Updated' : 'Created'} Failed game ${message}`,
-                `${isUpdate ? 'Update' : 'Create'} Failed`,
-                2000);
+            NotificationManager.error(message, 'Create failed', 2000);
         }
     }
 
@@ -73,12 +71,17 @@ export default function GameForm({ initialGameForm = {
         }
     }
 
+    // const [values, setValues] = useState([
+    //     { id: 1, label: "Yes", value: 'true' },
+    //     { id: 2, label: "No", value: 'false' },
+    // ]);
+
     useEffect(() => {
         async function fetchDataAsync() {
             let result = await getGenresRequest();
             setGenres(result.data);
         }
-
+        
         fetchDataAsync();
     }, []);
 
@@ -126,6 +129,11 @@ export default function GameForm({ initialGameForm = {
                         options={genres}
                         isrequired
                     />
+                    <SelectField
+                        name="isFeatured"
+                        label="IsFeatured"
+                        options={BooleanOptions}
+                    />
                     <FileUpload
                         name="coverImage"
                         label="CoverImage"
@@ -138,7 +146,7 @@ export default function GameForm({ initialGameForm = {
                         isrequired
                         image={actions.values.backGroundImage}
                     />
-                    <br/>
+                    <br />
                     <div className="d-flex">
                         <div className="ml-auto">
                             <button className="btn btn-danger"

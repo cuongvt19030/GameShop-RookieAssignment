@@ -14,6 +14,7 @@ namespace RookieShop.Shared.Dto.Game
         public string BackGroundImage { get; set; }
         public int GenreID { get; set; }
         public string GenreName { get; set; }
+        public bool IsFeatured { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
     }

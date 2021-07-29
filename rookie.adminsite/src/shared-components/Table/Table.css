@@ -39,7 +39,7 @@
 .table-container > .table > tr:hover {
     cursor: pointer;
 }
-
+/* 
 .pagination {
     margin-left: auto;
 }
@@ -71,8 +71,12 @@
     cursor:not-allowed;
     background-color: transparent;
     color: rgba(108,117,125,1);
+} */
+
+img.cover {
+    width: 50px;
 }
 
-img.show {
-    width: 50px;
+img.background {
+    width: 70px;
 }

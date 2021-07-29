@@ -27,7 +27,7 @@ export function createGameRequest(gameForm){
         formData.append(key, gameForm[key]);
     });
 
-    return RequestService.axios.post(Endpoints.games, formData);
+    return RequestService.axios.post(Endpoints.gameCreate, formData);
 }
 
 export function disableGameRequest(gameId) {

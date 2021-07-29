@@ -3,8 +3,8 @@ import Resizer from 'react-image-file-resizer';
 export const resizeFileToBlob = async (file, setStateCallback) => {
     Resizer.imageFileResizer(
         file,
-        250,
-        250,
+        4000,
+        2000,
         'JPEG',
         100,
         0,

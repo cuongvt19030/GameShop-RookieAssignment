@@ -39,7 +39,7 @@ const FileUpload = (props) => {
                                     type='button'
                                     className='absolute top-0 right-0 text-white'><X />
                                 </button>
-                                <img src={review} className='object-center w-full rounded-md' />
+                                <img src={review} className='object-center w-full rounded-md' height="200px" maxWidth="250px"/>
                             </div>
                         </div>
                     )
